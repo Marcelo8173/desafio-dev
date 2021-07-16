@@ -10,7 +10,7 @@
 - por fim rode o comando `yarn dev` para subir o backend
 
 # Possíveis erros 
-- caso o docker-compose não suba o banco de dados da aplicação você pode rodar o compando do docker manualmente `docker run --name gobarber_postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres` 
+- caso o docker-compose não suba o banco de dados da aplicação você pode rodar o compando do docker manualmente `docker run --name code_postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres` 
 
 
 # Desafio programação - para vaga desenvolvedor
