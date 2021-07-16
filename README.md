@@ -8,6 +8,7 @@
 - na pasta backend rode o comando `docke-compose up` para subir o banco de dados
 - ainda na pasta backend rode o comando `yarn typeorm migration:run` ou `npm typeorm migration:run` para rodar as migrations do banco de dados
 - por fim rode o comando `yarn dev` para subir o backend
+- os endpoints do projeto estão documentadas no swagger por meio do link http://localhost:8080/api-docs
 
 # Possíveis erros 
 - caso o docker-compose não suba o banco de dados da aplicação você pode rodar o compando do docker manualmente `docker run --name code_postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres` 
