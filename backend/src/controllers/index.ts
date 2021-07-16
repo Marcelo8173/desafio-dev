@@ -1,9 +1,9 @@
 import fileSystem from 'fs'
-import { Parser } from "simple-text-parser";
-import { readFileSync } from 'fs'
 import readLine from 'readline'
-
-interface datas {
+import { getRepository } from 'typeorm'
+import {Cnab} from '../models/Cnab-models'
+import {Request, Response} from 'express'
+interface IDatas {
   tipo: string,
   data: string,
   valor: number,
@@ -15,49 +15,53 @@ interface datas {
 }
 
 class UploadoController {
-    async loadCategory (file: Express.Multer.File): Promise<datas> {
-        return new Promise((resolve, reject) => {
-          const readeble = fileSystem.createReadStream(file.path)
-          const rl = readLine.createInterface({
-            input: readeble
-          })
 
-          let datas = [{
-            tipo: '',
-            data: '',
-            valor: 0,
-            cpf: '',
-            cartao: '',
-            hora: '',
-            donoDaLoja: '',
-            nomeDaLoja:''
-          }]
-
-          rl.on('line',(line) => {
-            const tipo = line.slice(0,1)
-            const data = line.slice(1,9)
-            const valor = Number(line.slice(9,19)) / 100
-            const cpf = line.slice(19,30)
-            const cartao = line.slice(30,41)
-            const hora = line.slice(41,47)
-            const donoDaLoja = line.slice(47,61)
-            const nomeDaLoja = line.slice(61,80)
-            datas.push({
-              tipo,
-              data,
-              valor,
-              cpf,
-              cartao,
-              hora,
-              donoDaLoja,
-              nomeDaLoja
-            })
-            return datas
-          })
+    async loadFile (file: Express.Multer.File): Promise<IDatas[]> {
+        const readeble = fileSystem.createReadStream(file.path)
+        const datas: IDatas[] = []
+        const rl = readLine.createInterface({
+          input: readeble,
         })
-      }
-
+        
+        for await (const line of rl) {
+          const tipo = line.slice(0,1)
+          const data = line.slice(1,9)
+          const valor = Number(line.slice(9,19)) / 100
+          const cpf = line.slice(19,30)
+          const cartao = line.slice(30,42)
+          const hora = line.slice(41,47)
+          const donoDaLoja = line.slice(47,61)
+          const nomeDaLoja = line.slice(61,80)
+          datas.push({
+            tipo,
+            data,
+            valor,
+            cpf,
+            cartao,
+            hora,
+            donoDaLoja,
+            nomeDaLoja
+          })
+        }
+        return datas
+    }
+    async create (file: Express.Multer.File): Promise<string> {
+      const files = await this.loadFile(file)
+      const repository = getRepository(Cnab)
+      const dataToSave = repository.create(files)
+      await repository.save(dataToSave)
       
+      return 'created'
+    }
+      
+   public async list (request:Request,response:Response): Promise<Response> {
+      const repository = getRepository(Cnab)
+      const responseDatas = await repository.query(`
+        select * from cnab_table
+      `)
+      
+      return response.status(200).json(responseDatas)
+    }
 }
 
 export {UploadoController}

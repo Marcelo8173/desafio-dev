@@ -1,23 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TemplateMain } from '../../view/template/Main'
+import { IListProps } from '../../components/Table/models/index-table-models'
 import { DropZone, Table } from '../../components'
 import * as S from './styled'
-
-const list = [
-  {
-    id: 1,
-    tipo: 2,
-    data: '09620676017',
-    valor: '142',
-    cpf: '09620676017',
-    cart: '4753****3153',
-    hora: '153453',
-    DonoDaLoja: 'JOÃO MACEDO',
-    NomeLoja: 'BAR DO JOÃO'
-  }
-]
+import api from '../../infra/services/api'
 
 const Dashboard = () => {
+  const [list, SetList] = useState<IListProps[]>([])
+
+  useEffect(() => {
+    api.get('/data/import').then((response) => SetList(response.data))
+  }, [])
+
   return (
     <TemplateMain>
       <S.Wrapper>

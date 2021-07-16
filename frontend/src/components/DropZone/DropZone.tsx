@@ -17,7 +17,6 @@ const DropZone = () => {
     data.append('file', event.target.files[0])
     try {
       await api.post(`/data/import`, data)
-      toast.success('Planilha importada com sucesso')
     } catch (error) {
       toast.error('Erro ao importar planilha')
     }
