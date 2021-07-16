@@ -1,3 +1,18 @@
+# O que é necessário para rodar o projeto
+- nodeJS
+- docker e docker-compose
+
+# Passo a passo
+- baixe o projeto e nas pastas frontend e backend utilize o comando `yarn ou npm install` para instalar as dependências do projeto
+- na pasta de frontend rode o comando `yarn start` para subir o projeto frontend
+- na pasta backend rode o comando `docke-compose up` para subir o banco de dados
+- ainda na pasta backend rode o comando `yarn typeorm migration:run` ou `npm typeorm migration:run` para rodar as migrations do banco de dados
+- por fim rode o comando `yarn dev` para subir o backend
+
+# Possíveis erros 
+- caso o docker-compose não suba o banco de dados da aplicação você pode rodar o compando do docker manualmente `docker run --name gobarber_postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres` 
+
+
 # Desafio programação - para vaga desenvolvedor
 
 Por favor leiam este documento do começo ao fim, com muita atenção.
