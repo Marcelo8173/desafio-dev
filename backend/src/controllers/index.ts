@@ -30,7 +30,7 @@ class UploadoController {
           const cpf = line.slice(19,30)
           const cartao = line.slice(30,42)
           const hora = line.slice(41,47)
-          const donoDaLoja = line.slice(47,61)
+          const donoDaLoja = line.slice(48,61)
           const nomeDaLoja = line.slice(61,80)
           datas.push({
             tipo,

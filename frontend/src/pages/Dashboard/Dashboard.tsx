@@ -7,15 +7,20 @@ import api from '../../infra/services/api'
 
 const Dashboard = () => {
   const [list, SetList] = useState<IListProps[]>([])
+  const [update, setUpdate] = useState(false)
 
   useEffect(() => {
     api.get('/data/import').then((response) => SetList(response.data))
-  }, [])
+  }, [update])
+
+  const handleGetStatusImport = () => {
+    setUpdate((props) => !props)
+  }
 
   return (
     <TemplateMain>
       <S.Wrapper>
-        <DropZone />
+        <DropZone getImport={handleGetStatusImport} />
         <p>Listagem</p>
         <Table list={list} />
       </S.Wrapper>
