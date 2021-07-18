@@ -3,22 +3,14 @@ import readLine from 'readline'
 import { getRepository } from 'typeorm'
 import {Cnab} from '../models/Cnab-models'
 import {Request, Response} from 'express'
-interface IDatas {
-  tipo: string,
-  data: string,
-  valor: number,
-  cpf: string,
-  cartao: string,
-  hora: string,
-  donoDaLoja: string,
-  nomeDaLoja:string
-}
+import { IDataDtos } from '../Dtos/DataDtos'
+import { UploadControllerInterface } from '../protocols/UploadControllerInterface'
 
-class UploadoController {
+class UploadoController implements UploadControllerInterface{
 
-    async loadFile (file: Express.Multer.File): Promise<IDatas[]> {
+    async loadFile (file: Express.Multer.File): Promise<IDataDtos[]> {
         const readeble = fileSystem.createReadStream(file.path)
-        const datas: IDatas[] = []
+        const datas: IDataDtos[] = []
         const rl = readLine.createInterface({
           input: readeble,
         })
